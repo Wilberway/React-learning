@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="../build/react.js"></script>
+		<script src="../build/react-dom.js"></script>
+		<script src="../build/browser.min.js"></script>
+		<style>
+			textarea{
+				font-size: 28px;
+				float:left;
+			}
+			.text{
+				float:left;
+				font-size:28px;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>会变色的文字</h1>
+		<div id="example"></div>
+		<script type="text/babel">
+			var Input = React.createClass({
+				getInitialState: function() {
+					return {value: ''};
+				},
+				handleChange: function(event) {
+					this.setState({value: event.target.value});
+					let color = this.toNumber();
+					this.refs.changeColor.style.transition = "color 0.5s";
+					this.refs.changeColor.style.color = color;
+				},
+				toNumber:function(){
+					let num = Math.floor(Math.random() * 256*256*256);
+					num = num.toString(16);
+					let str = "#"+num;
+					return str;
+				},
+				render: function () {
+					let value = this.state.value;
+					return (
+						<div>
+							<textarea rows="10" cols="20" value={value} onChange={this.handleChange} />
+							<div className="text" ref="changeColor">{value}</div>
+						</div>
+					);
+				}
+			});
+			ReactDOM.render(<Input/>, document.getElementById('example'));
+		</script>
+	</body>
+</html>
